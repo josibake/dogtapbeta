@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.w3-button {width:150px;}
+</style>
+	<style>
+		body {
+			padding:20px;
+		}
+	table {
+	  font-family: arial, sans-serif;
+	  border-collapse: collapse;
+	  width: 100%;
+	}
+
+	td {
+	  border: 1px solid #dddddd;
+	  text-align: left;
+	  padding: 8px;
+	}
+	div {
+		max-width: 650px;
+	}
+	</style>
+</head>
+<body>
+
+<h2>Dogtap|Beta</h2>
+
+<p>Dogtap|Beta - computational knowledge engine that can.. do simple math. For now.</p>
+<form action="/calculate" method="post">
+  Expression:<br>
+  <input type="text" name="infix" value={{ .Input}}>
+  <input type="submit" value="Calculate">
+</form>
+<br/>
+<div>
+<table>
+  <tr>
+    <td>INPUT</td>
+    <td>{{ .Input}}</td>
+  </tr>
+  <tr>
+    <td>RESULT</td>
+    <td>{{ .Result}}</td>
+  </tr>
+</table>
+</div>
+</body>
+</html>
