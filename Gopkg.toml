@@ -28,3 +28,8 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[metadata.heroku]
+  root-package = "github.com/josibake/dogtapbeta"
+  go-version = "go1.11.1"
+  install = ["."]
