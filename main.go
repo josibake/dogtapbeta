@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/josibake/shuntingyard"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,7 +13,7 @@ type Calculation struct {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	result := shuntingyard.Calculate(r.Form["infix"][0])
+	result := Calculate(r.Form["infix"][0])
 	calculation := Calculation{r.Form["infix"][0], result}
 
 	t, _ := template.ParseFiles("results.html")
