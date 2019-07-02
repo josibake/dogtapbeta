@@ -1,14 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Calculation struct {
 	Input  string
 	Result float64
+}
+
+// get the port from the ENV on startup
+func getPort() (string, error) {
+	port := os.Getenv("PORT")
+	if port == "" {
+		return "", fmt.Errorf("$PORT not set")
+	}
+	return ":" + port, nil
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +32,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	// get port on app startup
+	port, err := getPort()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("listening on %s...", port[1:])
 	http.Handle("/", http.FileServer(http.Dir(".")))
 	http.HandleFunc("/calculate", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(port, nil))
 }
