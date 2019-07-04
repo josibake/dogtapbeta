@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/josibake/calculator"
 	"html/template"
 	"log"
 	"net/http"
@@ -24,7 +25,7 @@ func getPort() (string, error) {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	result := Calculate(r.Form["infix"][0])
+	result := calculator.Calculate(r.Form["infix"][0])
 	calculation := Calculation{r.Form["infix"][0], result}
 
 	t, _ := template.ParseFiles("results.html")
