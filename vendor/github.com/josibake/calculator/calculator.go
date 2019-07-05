@@ -7,14 +7,28 @@ import (
 )
 
 var operators = map[string]struct {
-	prec   int
-	rAssoc bool
+	prec     int
+	rAssoc   bool
+	function func(float64, float64) float64
 }{
-	"^": {4, true},
-	"*": {3, false},
-	"/": {3, false},
-	"+": {2, false},
-	"-": {2, false},
+	"^": {4, true, math.Pow},
+	"*": {3, false, func(x, y float64) float64 { return x * y }},
+	"/": {3, false, func(x, y float64) float64 { return x / y }},
+	"+": {2, false, func(x, y float64) float64 { return x + y }},
+	"-": {2, false, func(x, y float64) float64 { return x - y }},
+}
+
+var functions = map[string]func(float64) float64{
+	"sin":  math.Sin,
+	"cos":  math.Cos,
+	"sqrt": math.Sqrt,
+	"tan":  math.Tan,
+}
+
+var constants = map[string]float64{
+	"e":   math.E,
+	"pi":  math.Pi,
+	"phi": math.Phi,
 }
 
 func isParentheses(token string) bool {
@@ -37,13 +51,15 @@ func CmdLineInputParsing(input string) []string {
 				output = append(output, token)
 			} else {
 				output = append(output, input[i:j], token)
+
 			}
 			i = j + 1
-		} else if _, exists := operators[token]; !exists && j+1 == len(input) {
-			output = append(output, input[i:])
 		} else {
 			continue
 		}
+	}
+	if input[i:] != "" {
+		output = append(output, input[i:])
 	}
 	return output
 }
@@ -76,6 +92,8 @@ func ShuntingYardAlgorithm(input []string) []string {
 
 				}
 				stack = append(stack, token)
+			} else if _, exists := functions[token]; exists {
+				stack = append(stack, token)
 			} else {
 				rpn = append(rpn, token)
 			}
@@ -93,33 +111,27 @@ func ShuntingYardAlgorithm(input []string) []string {
 func ComputeResult(rpn []string) float64 {
 	var result []float64
 	for _, token := range rpn {
-		if _, exists := operators[token]; exists {
+		if operator, exists := operators[token]; exists {
 			// pop y
 			y := result[len(result)-1]
 			result = result[:len(result)-1]
 			// pop x
 			x := result[len(result)-1]
 			result = result[:len(result)-1]
-			switch token {
-			case "+":
-				x += y
-				result = append(result, x)
-			case "*":
-				x *= y
-				result = append(result, x)
-			case "-":
-				x -= y
-				result = append(result, x)
-			case "/":
-				x = x / y
-				result = append(result, x)
-			case "^":
-				x = math.Pow(x, y)
-				result = append(result, x)
-			}
+			x = operator.function(x, y)
+			result = append(result, x)
+		} else if function, exists := functions[token]; exists {
+			x := result[len(result)-1]
+			result = result[:len(result)-1]
+			x = function(x)
+			result = append(result, x)
 		} else {
-			f, _ := strconv.ParseFloat(token, 64)
-			result = append(result, f)
+			if value, exists := constants[token]; exists {
+				result = append(result, value)
+			} else {
+				value, _ := strconv.ParseFloat(token, 64)
+				result = append(result, value)
+			}
 		}
 	}
 	return result[0]

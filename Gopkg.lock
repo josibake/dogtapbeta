@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:cf932afd008c9f6abc08747f0f4c2a33389d59a4a829614573b65445aafeaddd"
+  digest = "1:df4631d68f49289d345cac79692f87361591d18a6426d91b25e74051783ce2d1"
   name = "github.com/josibake/calculator"
   packages = ["."]
   pruneopts = "UT"
-  revision = "31ccb13189e1fd0376eafdabbfbc916304951632"
+  revision = "371643b3088bc9bcae05ccb856fcd44f98e1c4e0"
 
 [solve-meta]
   analyzer-name = "dep"

@@ -23,7 +23,7 @@ func getPort() (string, error) {
 	return ":" + port, nil
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func CalculateHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	result := calculator.Calculate(r.Form["infix"][0])
 	calculation := Calculation{r.Form["infix"][0], result}
@@ -42,6 +42,6 @@ func main() {
 
 	log.Printf("listening on %s...", port[1:])
 	http.Handle("/", http.FileServer(http.Dir(".")))
-	http.HandleFunc("/calculate", handler)
+	http.HandleFunc("/calculate", CalculateHandler)
 	log.Fatal(http.ListenAndServe(port, nil))
 }
