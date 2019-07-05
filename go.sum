@@ -1,2 +1,4 @@
 github.com/josibake/calculator v0.0.0-20190705213621-566083beceae h1:6D398nK4iCLDy6Mg0Jp4CgSA7XvqMQrBfZcEzKNNxyU=
 github.com/josibake/calculator v0.0.0-20190705213621-566083beceae/go.mod h1:1gv8Q6x2OuJ4Oi5uDM9vABEC4kDAX57H/flK8dq22M8=
+github.com/josibake/calculator v0.1.0 h1:lwYkZaCFE7Uu1SCaRqZmqZO44Eez1rXKSZ9qLiSsQJs=
+github.com/josibake/calculator v0.1.0/go.mod h1:RG8bq6mAyL4olV7PxK2MoIDhVj+cRzdbxuZsQBAGnZY=
